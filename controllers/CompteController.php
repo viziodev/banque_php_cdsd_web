@@ -6,6 +6,7 @@ class CompteController extends Controller{
     public  function __construct(){
         $this->compteService=new CompteService();
         $this->onLoadAction();
+        
      }
 
    public function list(){

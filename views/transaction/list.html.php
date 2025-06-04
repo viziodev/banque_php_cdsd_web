@@ -27,34 +27,49 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Détails du compte</h2>
     <div>
-      <a href="index.php?controller=transaction&action=create" class="btn btn-primary">+ Nouvelle transaction</a>
+      <a href="index.php?controller=transaction&action=form&id=<?php echo $compte->getId()?>" class="btn btn-primary">+ Nouvelle transaction</a>
     </div>
   </div>
 
-  <div class="row g-3">
+ 
+
+ <!-- Statistiques -->
+ <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+          <h6>Total des dépôts:</h6>
+          <h4 class="text-success"><?php echo $statistiques['totalDepot']?> FCFA</h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+          <h6>Total des retraits:</h6>
+          <h4 class="text-danger"><?php echo $statistiques['totalRetrait']?> FCFA</h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+          <h6>Nombre de transactions:</h6>
+          <h4><?php echo $statistiques['nbreTransaction']?></h4>
+        </div>
+      </div>
+    </div>
+    
+
+  <div class="row g-3" style="height: 55vh;">
     <!-- Informations du compte -->
-    <div class="col-md-4">
-      <div class="card">
+    <div class="col-md-4" >
+      <div class="card" style="height: 95%;">
         <div class="card-body">
           <h5 class="card-title">Informations du compte</h5>
-          <p><strong>N° Compte:</strong> <a href="#">C00123456</a></p>
-          <p><strong>Titulaire:</strong> Amadou Diallo</p>
-          <p><strong>Type:</strong> <span class="badge bg-success">Épargne</span></p>
-          <p><strong>Solde actuel:</strong> <span class="text-green">1 250 000 FCFA</span></p>
-          <p><strong>Date de création:</strong> 15/03/2023</p>
-          <p><strong>Statut:</strong> <span class="badge badge-orange">Bloqué 🔒</span></p>
-          <p><strong>Date de déblocage:</strong> 15/04/2023</p>
-          <div class="d-flex gap-2 mt-3">
-            <button class="btn btn-modifier btn-sm">Modifier</button>
-            <button class="btn btn-supprimer btn-sm">Supprimer</button>
-          </div>
+          <?php   require_once "./../views/transaction/partial/info.compte.html.php"; ?>
         </div>
       </div>
     </div>
 
     <!-- Historique des transactions -->
     <div class="col-md-8">
-      <div class="card">
+      <div class="card"  style="height: 95%;">
         <div class="card-body">
           <h5 class="card-title">Historique des transactions</h5>
           <table class="table table-bordered table-hover">
@@ -65,50 +80,19 @@
                 <th>Type</th>
                 <th>Montant</th>
                 <th>Solde après</th>
-                <th>Description</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>T00123</td>
-                <td>10/04/2023</td>
-                <td><span class="badge bg-success">Dépôt</span></td>
-                <td class="text-green">+250 000 FCFA</td>
-                <td>1 250 000 FCFA</td>
-                <td>Dépôt mensuel</td>
-              </tr>
-              <tr>
-                <td>T00122</td>
-                <td>05/04/2023</td>
-                <td><span class="badge bg-success">Dépôt</span></td>
-                <td class="text-green">+500 000 FCFA</td>
-                <td>1 000 000 FCFA</td>
-                <td>Virement salaire</td>
-              </tr>
-              <tr>
-                <td>T00121</td>
-                <td>28/03/2023</td>
-                <td><span class="badge bg-danger">Retrait</span></td>
-                <td class="text-red">-100 000 FCFA</td>
-                <td>500 000 FCFA</td>
-                <td>Retrait guichet</td>
-              </tr>
-              <tr>
-                <td>T00120</td>
-                <td>20/03/2023</td>
-                <td><span class="badge bg-danger">Retrait</span></td>
-                <td class="text-red">-150 000 FCFA</td>
-                <td>600 000 FCFA</td>
-                <td>Paiement loyer</td>
-              </tr>
-              <tr>
-                <td>T00119</td>
-                <td>15/03/2023</td>
-                <td><span class="badge bg-success">Dépôt</span></td>
-                <td class="text-green">+750 000 FCFA</td>
-                <td>750 000 FCFA</td>
-                <td>Dépôt initial</td>
-              </tr>
+              <?php foreach ($transactions as  $transaction):?>
+                <tr>
+                  <td><?php echo $transaction->getId()?> </td>
+                  <td><?php echo $transaction->getDate()->format("d-m-Y")?> </td>
+                  <td><span class="badge <?php echo $transaction->getType()=="DEPOT"?" bg-success":"bg-danger"?>"><?php echo $transaction->getType()?> </span></td>
+                  <td class=" <?php echo $transaction->getType()=="DEPOT"?"text-success":"text-danger"?>"> <?php echo $transaction->getType()=="DEPOT"?"+":"-"?><?php echo $transaction->getMontant()?> FCFA</td>
+                  <td>1 250 000 FCFA</td>
+
+                </tr>
+              <?php endforeach?>
             </tbody>
           </table>
           <nav >
@@ -124,16 +108,6 @@
     </div>
 
     <!-- Statistiques -->
-    <div class="col-md-4">
-      <div class="card mt-3">
-        <div class="card-body">
-          <h5 class="card-title">Statistiques</h5>
-          <p><strong>Total des dépôts:</strong> <span class="text-green">1 500 000 FCFA</span></p>
-          <p><strong>Total des retraits:</strong> <span class="text-red">250 000 FCFA</span></p>
-          <p><strong>Nombre de transactions:</strong> 8</p>
-          <p><strong>Dernière transaction:</strong> 10/04/2023</p>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </div>

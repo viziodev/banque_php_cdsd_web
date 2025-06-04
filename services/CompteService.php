@@ -1,18 +1,30 @@
 <?php 
 require_once "./../entity/Compte.php";
 require_once "./../repository/CompteRepository.php";
+require_once "./../repository/TransactionRepository.php";
 class CompteService{
    private CompteRepository $compteRepository;
+   private TransactionRepository $transactionRepository;
    private const LIMIT=4;
    public function __construct()
    {
        $this->compteRepository =new CompteRepository();
+       $this->transactionRepository =new TransactionRepository();
+       
    }
-
     public function addCompte(Compte $compte):bool{
-        return $this->compteRepository->insert($compte)!=0;
-    }
+         $result= $this->compteRepository->insert($compte);
+         if($result==0) {
+            return false;
+         }
+        $transaction=new Transaction();
+        $transaction->setType("DEPOT");
+        $transaction->setMontant($compte->getSolde());
+        $compteId=$this->compteRepository->selectMaxId();
+        $transaction->setCompteId($compteId);
+        return $this->transactionRepository->insert($transaction)!=0;
 
+    }
     /**
      * Get the value of comptes
      */
@@ -26,7 +38,10 @@ class CompteService{
           $offset =($page-1)*self::LIMIT ;
           return $this->compteRepository->selectAll($titulaire,$offset,self::LIMIT);
     }
-
+    public function getCompteById(int $id): Compte|null
+    {
+          return $this->compteRepository->selectById($id);
+    }
     public function generateNumero(): string
     {
        $lastId=$this->compteRepository->selectMaxId()+1;   

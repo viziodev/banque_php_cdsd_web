@@ -53,7 +53,7 @@
           <td><?php echo $compte->getDateCreation()->format("d/m/Y");?></td>
           <td><span class="badge bg-warning text-dark">Bloqué (DK)</span></td>
           <td>
-            <a href="index.php?controller=transaction&action=list" class="btn btn-sm btn-primary">Voir</a>
+            <a href="index.php?controller=transaction&action=list&id=<?php echo $compte->getId()?>" class="btn btn-sm btn-primary">Voir</a>
             <button class="btn btn-sm btn-warning">Editer</button>
             <button class="btn btn-sm btn-danger">Supprimer</button>
           </td>
