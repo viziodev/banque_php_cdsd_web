@@ -15,8 +15,9 @@
          </div>
          
       </form>
-        <a href="index.php?controller=compte&action=form" class="btn btn-primary"> <i class="bi bi-plus-square" ></i> Nouveau compte</a>
-
+      <?php if($_SESSION['user']['role']=="ADMIN"):?>
+          <a href="index.php?controller=compte&action=form" class="btn btn-primary"> <i class="bi bi-plus-square" ></i> Nouveau compte</a>
+      <?php endif?>
     </div>
 
     <table class="table table-bordered">

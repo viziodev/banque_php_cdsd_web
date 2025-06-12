@@ -15,14 +15,19 @@
         <li class="nav-item"><a class="nav-link active text-white" href="index.php?controller=dashboard&action=list">Tableau de bord</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="index.php?controller=compte&action=list">Comptes</a></li>
       </ul>
-      <div class="dropdown">
-        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          Admin
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#">Profil</a></li>
-          <li><a class="dropdown-item" href="#">Déconnexion</a></li>
-        </ul>
+      <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <?php echo  $_SESSION['user']['nomComplet'];?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><?php echo  $_SESSION['user']['role'];?></a></li>
+                            <li><a class="dropdown-item" href="#">Paramètres</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.php?controller=user&action=logout">Déconnexion</a></li>
+                        </ul>
+                    </li>
+      </ul>
       </div>
     </div>
   </nav>

@@ -4,12 +4,15 @@ require_once "./../entity/Compte.php";
 
 class CompteRepository extends Repository{
    
-    public function selectAll(string $titulaire,int $offset,int $limit):array{
+    public function selectAll(int|null $clientId,string $titulaire,int $offset,int $limit):array{
        //1-Connexion a Mysql
     try {
-         $where="";
+         $where="where 1=1";
+         if($clientId!=null){
+              $where.=" and user_id=$clientId ";
+         }
          if (!empty($titulaire)) {
-            $where="where titulaire like '$titulaire' ";
+              $where.=" and titulaire like '$titulaire' ";
          }
          $sql="select * from compte   $where LIMIT $offset,$limit";
         //2-Execute la requete

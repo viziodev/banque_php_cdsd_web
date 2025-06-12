@@ -1,17 +1,5 @@
-<script>
-  // Afficher/cacher date de déblocage selon le statut
-  const statutSelect = document.getElementById('statutCompte');
-  const dateDeblocageInput = document.getElementById('dateDeblocage');
-
-  statutSelect.addEventListener('change', () => {
-    if (statutSelect.value === 'bloque') {
-      dateDeblocageInput.removeAttribute('disabled');
-    } else {
-      dateDeblocageInput.setAttribute('disabled', 'true');
-      dateDeblocageInput.value = '';
-    }
-  });
-</script>
+   <!-- Bootstrap JS Bundle with Popper -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

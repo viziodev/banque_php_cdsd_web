@@ -6,6 +6,7 @@ class TransactionController extends Controller{
    private CompteService $compteService;
    private TransactionService $transactionService;
      public  function __construct(){
+         parent::__construct();
         if(!isset($_REQUEST['id'])){
            header("location:index.php?controller=compte&action=list");
            exit;

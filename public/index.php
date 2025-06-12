@@ -2,9 +2,13 @@
 
 
  
-   $controller=$_REQUEST["controller"]??"compte";
+   $controller=$_REQUEST["controller"]??"user";
        switch ($controller) {
-       case 'compte':
+        case 'user':
+          require_once "./../controllers/UserController.php";
+          $controller=new UserController();
+          break;
+         case 'compte':
               require_once "./../controllers/CompteController.php";
               $controller=new  CompteController();
             break;

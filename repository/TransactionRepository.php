@@ -21,7 +21,6 @@ class TransactionRepository extends Repository{
       return [];
       
     }
-
     protected function convert($row):Transaction{
         $transaction=new Transaction();
         $transaction->setId($row["id"]);

@@ -8,6 +8,5 @@ abstract class Repository{
         $this->database=new Database();
         $this->pdo= $this->database->getPdo();
     }
-
     protected abstract function convert($row):object;
 }

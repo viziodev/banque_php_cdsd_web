@@ -28,7 +28,7 @@ class CompteService{
     /**
      * Get the value of comptes
      */
-    public function getComptes(string $titulaire="",int $page=1): array
+    public function getComptes(int|null $clientId,string $titulaire="",int $page=1): array
     {
           //page=1 ==> $offset=(1-1)*4=0 ==>  ,int $limit=4   
           //page=2 ==> $offset=(2-1)*4=4   ==> ,int $limit=4
@@ -36,7 +36,7 @@ class CompteService{
           //page=3 ==> $offset=(4-1)*4=12 ,int $limit=4
 
           $offset =($page-1)*self::LIMIT ;
-          return $this->compteRepository->selectAll($titulaire,$offset,self::LIMIT);
+          return $this->compteRepository->selectAll($clientId,$titulaire,$offset,self::LIMIT);
     }
     public function getCompteById(int $id): Compte|null
     {

@@ -4,6 +4,7 @@ require_once "./../controllers/Controller.php";
 class CompteController extends Controller{
    private CompteService $compteService;
     public  function __construct(){
+        parent::__construct();
         $this->compteService=new CompteService();
         $this->onLoadAction();
         
@@ -11,7 +12,8 @@ class CompteController extends Controller{
 
    public function list(){
                $currentPage=$_REQUEST['page']??1; 
-               $comptes=$this->compteService->getComptes($_GET['titulaire']??"",$currentPage);
+               $clientId=$_SESSION['user']['role']=="CLIENT"?$_SESSION['user']['id']:null;
+               $comptes=$this->compteService->getComptes($clientId,$_GET['titulaire']??"",$currentPage);
                $nbrePage=$this->compteService->getNbrePage();
                $data=[
                 "comptes"=>  $comptes,

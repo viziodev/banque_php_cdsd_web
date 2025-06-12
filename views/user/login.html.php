@@ -1,3 +1,9 @@
+<?php 
+$errors=[];
+if (isset($_SESSION['errors'])) {
+  $errors=$_SESSION['errors'];
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,22 +23,28 @@
       <p class="text-muted">Système de Gestion de Comptes</p>
     </div>
     <h4 class="text-center mb-3">Connexion</h4>
-    <form>
+    <form action="index.php" method="POST">
+     <input type="hidden" name="controller"  value="user">
+     <input type="hidden" name="action" value="login">
       <div class="mb-3">
         <label for="identifiant" class="form-label">Identifiant</label>
-        <input type="text" class="form-control" id="identifiant" placeholder="Entrez votre identifiant">
+        <input type="text" name="login" class="form-control" id="identifiant" placeholder="Entrez votre identifiant">
+        <small id="emailHelpId" class="form-text text-danger">Help text</small>
       </div>
       <div class="mb-3">
         <label for="motdepasse" class="form-label">Mot de passe</label>
-        <input type="password" class="form-control" id="motdepasse" placeholder="Entrez votre mot de passe">
+        <input type="password" name="password" class="form-control" id="motdepasse" placeholder="Entrez votre mot de passe">
+        <small id="emailHelpId" class="form-text text-danger">Help text</small>
       </div>
       <div class="mb-3 text-end">
         <a href="#" class="small text-primary">Mot de passe oublié ?</a>
       </div>
-      <a href="index" class="btn btn-primary w-100">Se connecter</a>
+      <button type="submit" class="btn btn-primary w-100">Se connecter</button>
     </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
 </body>
 </html>
+
+
