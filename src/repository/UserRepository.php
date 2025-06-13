@@ -6,25 +6,24 @@ use App\Config\Repository;
 class UserRepository extends Repository {
         
     public function selectByLoginAndPassword(string $login,string $password):User|null{
-
-            $sql="select * from user where login='$login' and password='$password'";
-              $cursor=$this->pdo->query($sql);
-              if($row=$cursor->fetch()){
+            $sql="select * from user where login=? and password=?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$login,$password]);
+              if($row=$stmt->fetch()){
                     return $this->convert($row);
               }
-
             return null;
     }
 
     public function selectByRole(string $role="CLIENT"):array{
-            $sql="select * from user where role='$role'";
-              $cursor=$this->pdo->query($sql);
+            $sql="select * from user where role=?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$role]);
               $users=[];
-              while($row=$cursor->fetch()){
+              while($row=$stmt->fetch()){
                 $users[]=$this->convert($row);
               }
               return   $users;
-        
     }
     protected function convert($row):User{
         $user=new User();

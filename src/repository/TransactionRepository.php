@@ -9,10 +9,11 @@ class TransactionRepository extends Repository{
     public function selectAll(int $compteId,int $offset,int $limit):array{
        //1-Connexion a Mysql
   
-        $sql="select * from transaction  where compte_id=$compteId LIMIT $offset,$limit";
-         $cursor=$this->pdo->query($sql);
+        $sql="select * from transaction  where compte_id=? LIMIT $offset,$limit";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$compteId ]);
          $transactions=[];
-        while ($row=$cursor->fetch()) {
+        while ($row= $stmt->fetch()) {
          //4-Convertir statement ou cursor en tableau de compte
            $transactions[]=$this->convert($row);
         }
@@ -30,9 +31,10 @@ class TransactionRepository extends Repository{
 
     public function selectCount(int $compteId):int{
     
-            $sql="SELECT count(id) as count FROM `transaction` where compte_id=$compteId ";
-             $cursor=$this->pdo->query($sql);
-              if($row=$cursor->fetch()){
+            $sql="SELECT count(id) as count FROM `transaction` where compte_id=?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$compteId]);
+              if($row=$stmt->fetch()){
                 return $row["count"];
               }
         return 0;
@@ -40,9 +42,10 @@ class TransactionRepository extends Repository{
 
     public function sumMontantByType(int $compteId,string $type ):float{
         
-            $sql="SELECT sum(montant) as total FROM `transaction` where compte_id=$compteId and type='$type'";
-             $cursor=$this->pdo->query($sql);
-              if($row=$cursor->fetch()){
+            $sql="SELECT sum(montant) as total FROM `transaction` where compte_id=? and type=?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$compteId,$type]);
+              if($row=  $stmt->fetch()){
                 return $row["total"]??0;
               }
              
@@ -51,13 +54,14 @@ class TransactionRepository extends Repository{
     }
 
     public function insert(Transaction $transaction):int{
-        
             $montant=$transaction->getMontant();
             $type=$transaction->getType();
             $date=$transaction->getDate()->format("Y-m-d");
             $compteId=$transaction->getCompteId();
-            $sql="INSERT INTO `transaction` (`montant`, `type`, `date`,compte_id) VALUES ($montant, '$type', '$date','$compteId')";
-             return $this->pdo->exec($sql);
+            $sql="INSERT INTO `transaction` (`montant`, `type`, `date`,compte_id) VALUES (?,?,?,?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$montant, $type, $date,$compteId]);
+           return  $stmt->rowCount();
         
     }
 }
