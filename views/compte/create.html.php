@@ -1,5 +1,13 @@
 
-
+<?php 
+$errors=[];
+$post=[];
+if (isset($_SESSION['errors'])) {
+  $errors=$_SESSION['errors'];
+  $post=$_SESSION['data'];
+  unset($_SESSION['errors']);
+}
+?>
   <style>
     .badge-orange {
       background-color: orange;
@@ -26,52 +34,28 @@
     <div class="col-md-8">
       <div class="form-section">
         <h5 class="mb-4">Formulaire d’ouverture de compte</h5>
-            <!--index.php?controller=compte&action=form-->
+         
         <form action="index.php" method="POST">
           <input type="hidden" name="controller"  value="compte">
           <input type="hidden" name="action" value="create">
-          <!-- Titulaire -->
           <div class="mb-2">
-            <label for="nomTitulaire" class="form-label">Nom du titulaire</label>
-            <input type="text" name="titulaire" class="form-control" id="nomTitulaire" placeholder="Ex : Amadou Diallo" >
-          </div>
-
-          <!-- Type de compte
-          <div class="mb-2">
-            <label for="typeCompte" class="form-label">Type de compte</label>
-            <select class="form-select" id="typeCompte" required>
-              <option selected disabled>Choisir un type</option>
-              <option value="epargne">Épargne</option>
-              <option value="cheque">Chèque</option>
+            <label for="titulaire" class="form-label">Titulaire</label>
+            <select class="form-select"  name="titulaire" id="titulaire" >
+              <option  value="" >Choisir un client</option>
+              <?php foreach ($clients as  $client):?>
+                  <option  <?php echo isset($post['titulaire']) && $post['titulaire']==$client->getId()?'selected':''?>  value="<?php echo $client->getId();?>"><?php echo $client->getNomComplet();?></option>
+              <?php endforeach?>
             </select>
-          </div> -->
+            <small id="emailHelpId" class="form-text text-danger"><?php echo $errors['titulaire']??''?></small>
+          </div> 
 
           <!-- Solde initial -->
           <div class="mb-2">
             <label for="soldeInitial" class="form-label">Solde initial (FCFA)</label>
-            <input type="number" name="solde" class="form-control" id="soldeInitial" placeholder="Montant de départ"  >
-            <div class="form-text">Montant minimum : 1 000 FCFA</div>
+            <input type="number" value="<?php echo $post['solde']??''?>" name="solde" class="form-control" id="soldeInitial" placeholder="Montant de départ"  >
+            <small id="emailHelpId" class="form-text text-danger"><?php echo $errors['solde']??''?></small>
+
           </div>
-
-          <!-- Statut 
-          <div class="mb-2">
-            <label for="statutCompte" class="form-label">Statut du compte</label>
-            <select class="form-select" id="statutCompte" required>
-              <option selected disabled>Choisir un statut</option>
-              <option value="actif">Actif</option>
-              <option value="bloque">Bloqué</option>
-            </select>
-          </div>
-          -->
-
-          <!-- Date de déblocage (visible si bloqué)
-          <div class="mb-2">
-            <label for="dateDeblocage" class="form-label">Date de déblocage</label>
-            <input type="date" class="form-control" id="dateDeblocage">
-            <div class="form-text">Requis uniquement si le compte est bloqué.</div>
-          </div> -->
-
-          <!-- Boutons -->
           <div class="d-flex justify-content-end gap-3">
             <button type="submit" class="btn btn-primary">Créer le compte</button>
             <button  type="reset" class="btn btn-light">Annuler</button>

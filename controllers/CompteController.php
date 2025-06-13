@@ -1,11 +1,14 @@
 <?php
-require_once "./../services/CompteService.php";
 require_once "./../controllers/Controller.php";
+require_once "./../services/CompteService.php";
+require_once "./../services/UserService.php";
 class CompteController extends Controller{
    private CompteService $compteService;
+   private UserService $userService;
     public  function __construct(){
         parent::__construct();
         $this->compteService=new CompteService();
+        $this->userService=new UserService();
         $this->onLoadAction();
         
      }
@@ -25,7 +28,10 @@ class CompteController extends Controller{
    }
 
    public function loadForm(){
-           $this->renderView("compte/create.html.php");
+            $clients=$this->userService->getClients();
+           $this->renderView("compte/create.html.php",[
+              "clients"=> $clients
+           ]);
    }
 
    public function create(){
@@ -33,17 +39,25 @@ class CompteController extends Controller{
       // $solde=$_POST['solde'];
         extract($_POST);
        //1-Valider les donnees
+       if($this->validator->isEmpty($titulaire,'titulaire',"Veuillez Selectionner un client")) unset($_POST['titulaire']) ;
+       if(!$this->validator->isNumber((int)$solde,'solde',"Montant minimum : 10 000 FCFA")) unset($_POST['solde']);
        //2-Si Donnee sont valides alors on les envoient au service
-       $compte=new Compte();
-       $compte->setNumero($this->compteService->generateNumero());
-       $compte->setTitulaire($titulaire);
-       $compte->setSolde($solde);
-       $errorMessage="";
-       if($this->compteService->addCompte($compte)){
-           $errorMessage="Le compte a ete cree avec success";
-       }
-       //redirection
-       header("location:index.php?controller=compte&action=list");
+       if ($this->validator->isValid()){  
+            $compte=new Compte();
+            $compte->setNumero($this->compteService->generateNumero());
+            $compte->setTitulaire($titulaire);
+            $compte->setSolde($solde);
+            if($this->compteService->addCompte($compte)){
+              // $_SESSION['sucess']="Le compte a ete cree avec success";
+               header("location:index.php?controller=compte&action=list");
+               exit;
+            }
+        }else{
+         $_SESSION['errors']=$this->validator->getErrors();
+         $_SESSION['data']=$_POST;
+            header("location:index.php?controller=compte&action=form");
+         exit;
+        }
     }
 
   public function onLoadAction(){

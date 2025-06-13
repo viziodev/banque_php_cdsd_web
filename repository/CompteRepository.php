@@ -7,14 +7,14 @@ class CompteRepository extends Repository{
     public function selectAll(int|null $clientId,string $titulaire,int $offset,int $limit):array{
        //1-Connexion a Mysql
     try {
-         $where="where 1=1";
+         $where="where c.user_id=u.id";
          if($clientId!=null){
               $where.=" and user_id=$clientId ";
          }
          if (!empty($titulaire)) {
               $where.=" and titulaire like '$titulaire' ";
          }
-         $sql="select * from compte   $where LIMIT $offset,$limit";
+         $sql="select c.*,u.nomComplet as titulaire FROM `compte` c , user u  $where LIMIT $offset,$limit";
         //2-Execute la requete
          $cursor=$this->pdo->query($sql);
        //3-Recuperer les resultats sous form de cursor ou statement
@@ -39,7 +39,7 @@ class CompteRepository extends Repository{
             $numero=$compte->getNumero();
             $titulaire=$compte->getTitulaire();
             $dateCreation=$compte->getDateCreation()->format("Y-m-d");
-            $sql="INSERT INTO `compte` (`solde`, `numero`, `dateCreation`,titulaire) VALUES ($solde, '$numero', '$dateCreation','$titulaire')";
+            $sql="INSERT INTO `compte` (`solde`, `numero`, `dateCreation`,user_id) VALUES ($solde, '$numero', '$dateCreation',$titulaire)";
              return $this->pdo->exec($sql);
         } catch (PDOException $ex) {
              print $ex->getMessage()."\n";
@@ -59,7 +59,7 @@ class CompteRepository extends Repository{
     }
     public function selectById(int $id):Compte|null{
         try {
-            $sql="select * from compte where id=$id";
+            $sql="select c.*,u.nomComplet as titulaire FROM `compte` c , user u where c.user_id=u.id and id=$id";
              $cursor=$this->pdo->query($sql);
               if($row=$cursor->fetch()){
                     return $this->convert($row);

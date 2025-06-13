@@ -1,6 +1,7 @@
 <?php
-
+require_once "./../config/Validator.php";
 abstract class Controller{
+    protected Validator $validator;
     protected abstract function onLoadAction();
 
     public function __construct()
@@ -9,6 +10,9 @@ abstract class Controller{
             //Le tableau $_SESSION est Cree
              session_start();
         }
+
+        $this->validator=new Validator();
+
     }
 
     protected  function renderView($path,array $data=[]){

@@ -2,6 +2,7 @@
 $errors=[];
 if (isset($_SESSION['errors'])) {
   $errors=$_SESSION['errors'];
+  unset($_SESSION['errors']);
 }
 ?>
 <!DOCTYPE html>
@@ -23,18 +24,21 @@ if (isset($_SESSION['errors'])) {
       <p class="text-muted">Système de Gestion de Comptes</p>
     </div>
     <h4 class="text-center mb-3">Connexion</h4>
+     <div class="my-1">
+           <small id="emailHelpId" class="form-text text-danger"><?php echo $errors['connexion']??''?></small>
+     </div>
     <form action="index.php" method="POST">
      <input type="hidden" name="controller"  value="user">
      <input type="hidden" name="action" value="login">
       <div class="mb-3">
         <label for="identifiant" class="form-label">Identifiant</label>
         <input type="text" name="login" class="form-control" id="identifiant" placeholder="Entrez votre identifiant">
-        <small id="emailHelpId" class="form-text text-danger">Help text</small>
+        <small id="emailHelpId" class="form-text text-danger"><?php echo $errors['login']??''?></small>
       </div>
       <div class="mb-3">
         <label for="motdepasse" class="form-label">Mot de passe</label>
         <input type="password" name="password" class="form-control" id="motdepasse" placeholder="Entrez votre mot de passe">
-        <small id="emailHelpId" class="form-text text-danger">Help text</small>
+        <small id="emailHelpId" class="form-text text-danger"><?php echo $errors['password']??''?></small>
       </div>
       <div class="mb-3 text-end">
         <a href="#" class="small text-primary">Mot de passe oublié ?</a>

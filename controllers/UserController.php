@@ -36,27 +36,19 @@ class UserController extends Controller{
         //1-Recuperation des donnees de la requete
            extract($_REQUEST);
         //2-Validation des donnees
-             $errors=[];
-             if (empty($login)) {
-                 $errors['login']="Login est obligatoire";
-             }elseif(!filter_var($login, FILTER_VALIDATE_EMAIL)){
-                $errors['login']="Login  doit etre un email";
-             }
-             if (empty($password)) {
-                //password est obligatoire 
-                $errors['password']="Password est obligatoire";
-              }
+              $this->validator->isEmpty($login,'login',"Login est obligatoire");
+              $this->validator->isEmail($login,'login',"Login  doit etre un email");
+              $this->validator->isEmpty($password,'password',"Montant minimum : 1 000 FCFA");
 
-         
-       //Donnees Valides
-       if (empty($errors)){
+         //Donnees Valides
+           if ($this->validator->isValid()){
             //3-Authentification
-            $user=$this->userService->seConnecter($login,$password);
-            if ($user==null) {
-                $errors['connexion']="Login ou Mot de passe Incorrect";
-                $_SESSION['errors']=$errors;
-            header("location:index.php");
-            exit;
+              $user=$this->userService->seConnecter($login,$password);
+              if ($user==null) {
+               $this->validator->addErrors('connexion',"Login ou Mot de passe Incorrect");
+                $_SESSION['errors']=$this->validator->getErrors();
+              header("location:index.php");
+               exit;
             }
             /* 
                 Dans une session on peut stocker des donnees de types
@@ -67,7 +59,7 @@ class UserController extends Controller{
             header("location:index.php?controller=compte&action=list");
             exit;
        }else{
-           $_SESSION['errors']=$errors;
+            $_SESSION['errors']=$this->validator->getErrors();
             header("location:index.php");
             exit;
        }
