@@ -1,25 +1,18 @@
 <?php
-
-
- 
+  require_once "../vendor/autoload.php";
    $controller=$_REQUEST["controller"]??"user";
        switch ($controller) {
         case 'user':
-          require_once "./../controllers/UserController.php";
-          $controller=new UserController();
+          $controller=new App\Controllers\UserController();
           break;
          case 'compte':
-              require_once "./../controllers/CompteController.php";
-              $controller=new  CompteController();
+              $controller=new  App\Controllers\CompteController();
             break;
-            case 'transaction':
-             require_once "./../controllers/TransactionController.php";
-             $controller=new  TransactionController();
+         case 'transaction':
+             $controller=new  App\Controllers\TransactionController();
              break;
-
-             case 'dashboard':
-               require_once "./../controllers/DashboardController.php";
-               $controller=new  DashboardController();
+         case 'dashboard':
+               $controller=new App\Controllers\DashboardController();
                break;
        default:
     # code...

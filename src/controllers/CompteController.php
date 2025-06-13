@@ -1,7 +1,11 @@
 <?php
-require_once "./../controllers/Controller.php";
-require_once "./../services/CompteService.php";
-require_once "./../services/UserService.php";
+namespace App\Controllers;
+
+use App\Entity\Compte;
+use App\Config\Controller;
+use App\Services\UserService;
+use App\Services\CompteService;
+
 class CompteController extends Controller{
    private CompteService $compteService;
    private UserService $userService;

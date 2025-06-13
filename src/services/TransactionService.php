@@ -1,7 +1,10 @@
 <?php 
-require_once "./../entity/Transaction.php";
-require_once "./../repository/TransactionRepository.php";
-require_once "./../repository/CompteRepository.php";
+namespace App\Services;
+
+use App\Entity\Transaction;
+use App\Repository\CompteRepository;
+use App\Repository\TransactionRepository;
+
 class TransactionService{
    private TransactionRepository $transactionRepository;
    private CompteRepository $compteRepository;

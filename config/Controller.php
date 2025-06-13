@@ -1,5 +1,5 @@
 <?php
-require_once "./../config/Validator.php";
+namespace App\Config;
 abstract class Controller{
     protected Validator $validator;
     protected abstract function onLoadAction();
@@ -10,7 +10,6 @@ abstract class Controller{
             //Le tableau $_SESSION est Cree
              session_start();
         }
-
         $this->validator=new Validator();
 
     }

@@ -1,9 +1,9 @@
 <?php 
+namespace App\Entity;
 class Compte{
-    private static int $nbreCompte=10;
     private int $id;
     private string $numero;
-    private DateTime $dateCreation;
+    private \DateTime $dateCreation;
     private float $solde;
     private string  $titulaire;
 
@@ -21,7 +21,7 @@ class Compte{
     */
     public function __construct()
     {
-       $this->dateCreation=new DateTime();
+       $this->dateCreation=new \DateTime();
     }
 
     /**
@@ -61,7 +61,7 @@ class Compte{
     /**
      * Get the value of dateCreation
      */
-    public function getDateCreation(): DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
     }
@@ -69,7 +69,7 @@ class Compte{
     /**
      * Set the value of dateCreation
      */
-    public function setDateCreation(DateTime $dateCreation): void
+    public function setDateCreation(\DateTime $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
     }

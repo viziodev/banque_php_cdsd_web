@@ -1,7 +1,12 @@
 <?php
-require_once "./../services/CompteService.php";
-require_once "./../services/TransactionService.php";
-require_once "./../controllers/Controller.php";
+namespace App\Controllers;
+
+use App\Entity\Compte;
+use App\Config\Controller;
+use App\Entity\Transaction;
+use App\Services\CompteService;
+use App\Services\TransactionService;
+
 class TransactionController extends Controller{
    private CompteService $compteService;
    private TransactionService $transactionService;

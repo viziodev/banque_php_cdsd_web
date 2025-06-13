@@ -1,8 +1,8 @@
 <?php 
-require_once "./../config/Database.php";
+namespace App\Config;
 abstract class Repository{
     private  Database $database;
-    protected PDO $pdo;
+    protected \PDO $pdo;
   
     public function __construct()
     {

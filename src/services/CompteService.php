@@ -1,7 +1,11 @@
 <?php 
-require_once "./../entity/Compte.php";
-require_once "./../repository/CompteRepository.php";
-require_once "./../repository/TransactionRepository.php";
+namespace App\Services;
+
+use App\Entity\Compte;
+use App\Entity\Transaction;
+use App\Repository\CompteRepository;
+use App\Repository\TransactionRepository;
+
 class CompteService{
    private CompteRepository $compteRepository;
    private TransactionRepository $transactionRepository;
@@ -30,11 +34,6 @@ class CompteService{
      */
     public function getComptes(int|null $clientId,string $titulaire="",int $page=1): array
     {
-          //page=1 ==> $offset=(1-1)*4=0 ==>  ,int $limit=4   
-          //page=2 ==> $offset=(2-1)*4=4   ==> ,int $limit=4
-          //page=3 ==> $offset=(3-1)*4=8 ,int $limit=4
-          //page=3 ==> $offset=(4-1)*4=12 ,int $limit=4
-
           $offset =($page-1)*self::LIMIT ;
           return $this->compteRepository->selectAll($clientId,$titulaire,$offset,self::LIMIT);
     }

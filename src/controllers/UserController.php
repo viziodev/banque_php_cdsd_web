@@ -1,6 +1,9 @@
 <?php 
-require_once "./../controllers/Controller.php";
-require_once "./../services/UserService.php";
+namespace App\Controllers;
+
+use App\Config\Controller;
+use App\Services\UserService;
+
 class UserController extends Controller{
     private UserService $userService;
      public  function __construct(){
@@ -10,7 +13,6 @@ class UserController extends Controller{
         
          
       }
-
       protected function onLoadAction(){
         $action=$_REQUEST["action"]??"form";
         switch ($action) {

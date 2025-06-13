@@ -1,13 +1,14 @@
 <?php 
+namespace App\Entity;
 class Transaction{
     private int $id;
-    private DateTime $date;
+    private \DateTime $date;
     private float $montant;
     private string  $type;
     private int  $compteId;
     public function __construct()
     {
-       $this->date=new DateTime();
+       $this->date=new \DateTime();
     }
     /**
      * Get the value of id
@@ -30,7 +31,7 @@ class Transaction{
     /**
      * Get the value of date
      */
-    public function getDate(): DateTime
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -38,7 +39,7 @@ class Transaction{
     /**
      * Set the value of date
      */
-    public function setDate(DateTime $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 

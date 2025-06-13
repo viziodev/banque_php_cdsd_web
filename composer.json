@@ -1,0 +1,23 @@
+{
+    "name": "douvewane/banque",
+    "description": "Gestion des Comptes CDSD-MAE",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "App\\Config\\": "config/",
+            "App\\Controllers\\": "src/controllers/",
+            "App\\Entity\\": "src/entity/",
+            "App\\Repository\\": "src/repository/",
+            "App\\Services\\": "src/services/"
+        }
+    },
+    "authors": [
+        {
+            "name": "douvewane",
+            "email": "douvewane85@gmail.com"
+        }
+    ],
+    "require": {
+    
+    }
+}

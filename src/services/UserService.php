@@ -1,6 +1,9 @@
 <?php 
-require_once "./../entity/User.php";
-require_once "./../repository/UserRepository.php";
+namespace App\Services;
+
+use App\Entity\User;
+use App\Repository\UserRepository;
+
 class UserService{
     private UserRepository $userRepository;
     public function __construct()

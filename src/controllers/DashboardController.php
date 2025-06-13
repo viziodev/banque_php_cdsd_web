@@ -1,5 +1,8 @@
 <?php 
-require_once "./../controllers/Controller.php";
+namespace App\Controllers;
+
+use App\Config\Controller;
+
 class DashboardController extends Controller{
 
     public  function __construct(){

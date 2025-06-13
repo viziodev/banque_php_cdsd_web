@@ -1,6 +1,8 @@
 <?php 
-require_once "./../repository/Repository.php";
-require_once "./../entity/User.php";
+namespace App\Repository;
+use App\Entity\User;
+use App\Config\Repository;
+
 class UserRepository extends Repository {
         
     public function selectByLoginAndPassword(string $login,string $password):User|null{
@@ -24,8 +26,6 @@ class UserRepository extends Repository {
               return   $users;
         
     }
-
-
     protected function convert($row):User{
         $user=new User();
          $user->setId($row["id"]);
